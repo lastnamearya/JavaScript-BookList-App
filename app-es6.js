@@ -58,8 +58,61 @@
     document.getElementById('author').value = "";
     document.getElementById('isbn').value = "";
    }
+}
 
- }
+// Local Storage Class
+class Store {
+
+  // It'll take care of fetching them from LocalStorage
+  static getBooks() {
+    let books;
+    if(localStorage.getItem('books') === null) {
+      books = [];
+    } else {
+      books = JSON.parse(localStorage.getItem('books'));
+    }
+
+    return books;
+  }
+
+  // It'll take care of the book in the UI 
+  static displayBooks() {
+    const books = Store.getBooks();
+
+    books.forEach(function(book){
+      const ui = new UI;
+      // Add Book to UI
+      ui.addBookToList(book);
+    });
+  }
+
+  // Add books to Local Storage
+  static addBook(book) {
+    // First we get how many books we already have a fixed unchanged value
+    const books = Store.getBooks();
+
+    // Added new book to our array using .push method
+    books.push(book);
+    // Added a key-value pair to our LocalStorage in object syntax, where 'books' is the key and JSON.stringify(books) is the value
+    localStorage.setItem('books', JSON.stringify(books));
+  }
+
+  static removeBook(isbn) {
+    const books = Store.getBooks();
+
+    books.forEach(function(book, index){
+      if(book.isbn === isbn){
+        books.splice(index, 1);
+      }
+    });
+
+    localStorage.setItem('books', JSON.stringify(books));
+  }
+}
+
+// DOM Load Event
+// We don't need parenthesis here
+document.addEventListener('DOMContentLoaded', Store.displayBooks);
 
  // Event Listeners
 document.getElementById('book-form').addEventListener('submit', function(e) {
@@ -84,6 +137,10 @@ document.getElementById('book-form').addEventListener('submit', function(e) {
     // Add Book to List
     ui.addBookToList(book);
 
+    // Add to LocalStorage
+    // As it's a static method we don't need to use any object instance here
+    Store.addBook(book);
+
     // Show success
     ui.showAlert('Book Added', 'success');
 
@@ -102,6 +159,9 @@ document.getElementById('book-list').addEventListener('click', function(e){
   
   // Delete Book
   ui.deleteBook(e.target);
+
+  // Remove from LocalStorage
+  Store.removeBook(e.target.parentElement.previousElementSibling.textContent);
 
   // Show Alert
   ui.showAlert('Book Removed!', 'success');

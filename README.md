@@ -1,5 +1,5 @@
 # [JavaScript-BookList-App](https://lastnamearya.github.io/JavaScript-BookList-App/)
-It's a simple app which I built in pure Vanilla.js without using any library like jQuery. I built this after learning Object-Oriented Programming in Js. 
+It's a simple app which I built in pure Vanilla.js without using any library like jQuery. I built this after learning Object-Oriented Programming in Js. I also implemented browser's LocalStorage API in my app.
 
 [![book-list.jpg](https://s18.postimg.org/u832hvb8p/book-list.jpg)](https://lastnamearya.github.io/JavaScript-BookList-App/)
 
